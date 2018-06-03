@@ -1,0 +1,392 @@
+<html>
+
+<head>
+  <title>Bootstrap Basics</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous">
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+  $("#fighter_table td.country_val:contains('Brazil')").css({'background-color':'#009b3a','color':'#fedf00'});
+  $("#fighter_table td.country_val:contains('USA')").css({'background-color':'#002868','color':'#bf0a30'});
+  $("#fighter_table td.country_val:contains('Ireland')").css({'background-color':'#169b62','color':'#ff893f'});
+  $("#fighter_table td.country_val:contains('Canada')").css({'background-color':'#FF0000','color':'white'});
+  $("#fighter_table td.country_val:contains('Myanmar')").css({'background-color':'#FECB00','color':'#34B233'});
+  $("#fighter_table td.country_val:contains('Australia')").css({'background-color':'#00008B','color':'#FF0000'});
+  $("#fighter_table td.country_val:contains('Japan')").css({'background-color':'white','color':'#C70025'});
+  $("#fighter_table td.country_val:contains('South Korea')").css({'background-color':'#CD2E3A','color':'#0047A0'});
+  $("#fighter_table td.country_val:contains('Russia')").css({'background-color':'#D52B1E','color':'#FFFFFF'});
+  document.getElementById('filterByFighter').onchange = function() {
+    window.location.href = this.children[this.selectedIndex].getAttribute('href');
+}
+document.getElementById('filterByCountry').onchange = function() {
+    window.location.href = this.children[this.selectedIndex].getAttribute('href');
+}
+});
+
+
+
+    </script>
+
+</head>
+
+<body>
+  <div class="container"><!--BEG OF CONTAINER -->
+    <div class="jumbotron"><!--BEG OF jumbotron -->
+      <h1>MMA FIGHTERS:</h1>
+    </div><!--END OF jumbotron -->
+  </div> <!--END OF CONTAINER -->
+
+
+
+
+
+  
+  <div id="accordion" role="tablist" aria-multiselectable="true"> <!--START OF ACCORDION -->
+
+    <div class="card">
+      <div class="card-header" role="tab" id="headingOne">
+        <h5 class="mb-0">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+          Fighters
+        </a>
+        </h5>
+      </div>
+
+      <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+        <div class="card-block">
+
+
+
+          <!--START OF FIGHTER FORM-->
+          <!--submits to /people via POST -->
+          <form id="addperson" action="/people" method="post">
+            <div class="form-group">
+              First name: <input class="form-control" type="text" name="fname"><br> Last name: <input class="form-control"
+                type="text" name="lname"><br> Country: <input class="form-control" type="text" name="country"><br>
+              <!--notice that select name="promotion" the name refers to a foreign key -->
+              <!--Notice that name="organization", means we are submitting to organization parameter -->
+              Promotion: <select class="form-control" name="organization"> 
+        {{#each promotion}}
+        <!--display something nice {{name}}, but we are submitting a {{id}} as value -->
+        <option value="{{id}}">{{name}}</option>
+        {{/each}}
+    </select>
+              <br> Age: <input class="form-control" type="number" name="age"><br>
+
+              </select>
+              <br>
+              <input type="submit" class="btn btn-info" value="Submit">
+            </div>
+          </form> <!--END OF FIGHTER FORM -->
+          </br>
+          
+     <table id="filter_table">
+       <thead>
+     <th>FILTER BY FIGHTER</th>
+    
+       </thead>
+       <tr>
+            <td>  <select class="form-control" name="id" id="filterByFighter"> 
+                
+        {{#each fighters}}
+        <!--display something nice {{name}}, but we are submitting a {{id}} as value -->
+        
+        <option value={{id}} href="/people/searchPerson/{{id}}">{{fname}} {{lname}}</option>
+        {{/each}}
+        </select></td>
+        <br>
+        <td><button class="btn btn-secondary"><a href="/people/">Display all fighters again</a></button></td>
+        </tr>
+        <th>FILTER BY COUNTRY</th>
+        <tr>
+          
+          <td>
+            <select class="form-control" name="country" id="filterByCountry">
+              {{#each countries}}
+              <option value={{country}}  href="/people/searchCountry/{{country}}"> {{country}}</option>
+              {{/each}}
+              </select
+          </td>
+          <td>
+            <button class="btn btn-secondary"><a href="/people/">Display all fighters again</a></button>
+            </td>
+          </tr>>
+        </table>
+        <br>
+        <br>
+                {{!--Country: <input class="form-control" type="text" name="country"><br>--}}
+              <!--notice that select name="promotion" the name refers to a foreign key -->
+              <!--Notice that name="organization", means we are submitting to organization parameter -->
+              {{!--Promotion: <select class="form-control" name="organization"> 
+        {{#each promotion}}
+        <!--display something nice {{name}}, but we are submitting a {{id}} as value -->
+        <option value="{{id}}">{{name}}</option>
+        {{/each}}
+    </select>--}}
+              {{!--<br> Age: <input class="form-control" type="number" name="age"><br>--}}
+
+              
+             
+              
+              
+           
+
+
+
+          <!--START OF FIGHTER TABLE -->
+          <table id="fighter_table" class="table table-hover">
+            <thead>
+              <th><a href="/people/filterByfname">First Name</a></th>
+              <th><a href="/people/filterBylname">Last Name</a></th>
+              <th><a href="/people/filterBycountry">Country</a></th>
+              <th><a href="/people/filterByAge">Age</a></th>
+              <th><a href="/people/filterByPromotion">Promotion</a></th>
+         
+            </thead>
+            <tbody>
+              {{#each fightersDisplay}}
+              <!--helper function getPeople() in people.js refer to this -->
+              <tr>
+                <td>{{fname}}</td>
+                <td>{{lname}}</td>
+                <td class="country_val">{{country}}</td>
+                <td>{{age}}</td>
+                <td>{{promotion}}</td>
+                {{!--
+                <td>{{team}}</td>--}}
+                <!--calls on javascript function to delete a person by id -->
+                <td><button class="btn btn-danger" onclick="deletePerson({{id}})">Delete</button></td>
+                <td><a href="/people/{{id}}">Update</a></td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header" role="tab" id="headingTwo"> <!--BEG of card headingTwo-->
+        <h5 class="mb-0">
+          <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Teams
+        </a>
+        </h5>
+      </div>  <!--END of card headingTwo-->
+      <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+        <div class="card-block">
+
+          <!--****-->
+          <!--****-->
+          <!--****-->
+
+
+          <!--START OF TEAM FORM-->
+          <!--submits to /people via POST -->
+          <form id="addteam" action="/people/team" method="post"> <!--BEG OF TEAM FORM -->
+          <h4>Add a Team</h4>
+          <div class="form-group">
+            Team Name: <input class="form-control" type="text" name="name"><br> 
+            Head Coach: <input class="form-control" type="text" name="coach"><br> 
+            Location: <input class="form-control" type="text" name="location"><br>
+              <input type="submit" class="btn btn-info" value="Submit">
+          </form> <!--END OF TEAM FORM -->
+          </div>
+              <br>
+            <form id="addTeammate" action="/people/addTeammate/"method="POST">
+    <div class="form-group">
+      <h4>Add Fighter</h4> 
+   <select class="form-control" name="pid"> 
+        {{#each fighters}}
+        <!--display something nice {{name}}, but we are submitting a {{id}} as value -->
+        <option value="{{id}}">{{fname}} {{lname}}</option>
+        {{/each}}
+        </select>
+        <br>
+        <h4>to this Team</h4>
+ <select class="form-control" name="tid"> 
+        {{#each team}}
+        <!--display something nice {{name}}, but we are submitting a {{id}} as value -->
+        <option value="{{id}}">{{name}}</option>
+        {{/each}}
+        </select>
+
+        <input type="submit" class="btn btn-info" value="Submit">
+        </div>
+        </form>
+           
+          </br>
+         
+
+          <table id="team_table" class="table"> <!--BEG OF TEAM TABLE -->
+          
+            <thead>
+              <th>Team</th>
+              <th>Head Coach</th>
+              <th>Location</th>
+              <th>Team Roster </th>
+            </thead>
+            <tbody>
+              {{#each team}}
+              <!--helper function getTeam() in people.js refer to this -->
+              <tr>
+                <td>{{name}}</td>
+                <td>{{coach}}</td>
+                <td>{{location}}</td>
+                <td><a href="/people/teamRoster/{{id}}">{{name}}'s Roster</a></td>
+                {{!--
+                <td>{{team}}</td>--}}
+                <!--calls on javascript function to delete a person by id -->
+                <td><button class="btn btn-danger" onclick="deleteTeam({{id}})">Delete</button></td>
+                <!--Refers to router.get-->
+                <td><a href="/people/team/{{id}}">Update</a></td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table> <!--END OF FIGHTER TABLE -->
+          
+
+        </div>
+      </div>
+    </div>
+
+<div class="card"><!--BEG OF CARD 3 -->
+  <div class="card-header" id="headingThree">
+    <h5 class="mb-0">
+      <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          Promotion
+        </a>
+    </h5>
+  </div> <!--END OF CARD HEADING THREE-->
+      <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+        <div class="card-block">
+
+      <!--PROMOTION FORM GOES HERE -->
+          <form id="addpromotion" action="/people/promotion" method="post">
+            <div class="form-group">
+               Name: <input class="form-control" type="text" name="name">
+               <br> 
+               CEO: <input class="form-control"type="text" name="CEO">
+               <br>
+              <input type="submit" class="btn btn-info" value="Submit">
+            </div>
+          </form>
+          </br>
+      <!--END OF PROMOTION FORM -->
+      </br>
+      <table id="promotion_table" class="table"><!--BEG OF PROMOTION TABLE -->
+        
+
+        <thead>
+          <th>Promotion Name</th>
+          <th>CEO</th>
+          <th>Roster</th>
+        </thead>
+        <tbody>
+          {{#each promotion}}
+          <!--helper function getTeam() in people.js refer to this -->
+          <tr>
+            <td>{{name}}</td>
+            <td>{{CEO}}</td>
+            <td><a href="/people/companyRoster/{{id}}">{{name}}'s roster</a></td> 
+            <!--calls on javascript function to delete a PROMOTION by id -->
+            <td><button class="btn btn-danger" onclick="deletePromotion({{id}})">Delete</button></td>
+            <td><a href="/people/promotion/{{id}}">Update</a></td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table> <!--END OF PROMOTION TABLE -->
+      
+
+
+
+    </div>
+  </div>
+</div> <!--END OF CARD 3 -->
+
+
+<div class="card"><!--BEG OF CARD 4 -->
+  <div class="card-header" id="headingFour">
+    <h5 class="mb-0">
+      <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+          Champions
+        </a>
+    </h5>
+  </div> <!--END OF CARD HEADING FOUR-->
+      <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingFour">
+        <div class="card-block">
+
+      <!--CHAMPION FORM GOES HERE -->
+          <form id="addChampion" action="/people/champion" method="post">
+            <div class="form-group">
+               title Name: <input class="form-control" type="text" name="name">
+               <br> 
+           Promotion: <select class="form-control" name="organization"> 
+        {{#each promotion}}
+        <!--display something nice {{name}}, but we are submitting a {{id}} as value -->
+        <option value="{{id}}">{{name}}</option>
+        {{/each}}
+    </select>
+                 <br> 
+ Weight class: <input class="form-control" type="text" name="weightclass">
+               <br> 
+           Belt Holder: <select class="form-control" name="holder"> 
+        {{#each fighters}}
+        <!--display something nice {{name}}, but we are submitting a {{id}} as value -->
+        <option value="{{id}}">{{fname}} {{lname}}</option>
+        {{/each}}
+    </select>
+              <input type="submit" class="btn btn-info" value="Submit">
+            </div>
+          </form>
+          </br>
+      <!--END OF CHAMPION FORM -->
+      </br>
+      <table id="champion_table" class="table"><!--BEG OF CHAMPION TABLE -->
+        
+
+        <thead>
+          <th>Title Name</th>
+          <th>Belt Holder</th>
+          <th>Weight Class</th>
+          <th>Organization</th>
+        </thead>
+        <tbody>
+          {{#each champion}}
+          <!--helper function getChampion() in people.js refer to this -->
+          <tr>
+            <td>{{titleName}}</td>
+            <td>{{firstName}} {{lastName}}</td>
+            <td>{{weightclass}}</td>
+            <td>{{organ}}</td>
+            <!--calls on javascript function to delete a PROMOTION by id -->
+            <td><button class="btn btn-danger" onclick="deleteChampion({{id}})">Delete</button></td>
+            <td><a href="/people/champion/{{id}}">Update</a></td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table> <!--END OF CHAMPION TABLE -->
+      
+
+
+
+    </div>
+  </div>
+</div> <!--END OF CARD 4 -->
+
+
+  </div><!--END OF ACCORDION -->
+
+
+
+
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
