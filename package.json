@@ -1,0 +1,30 @@
+{
+  "name": "main",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express-handlebars": "^3.0.0",
+    "forever": "^0.15.3",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "handlebars": "^4.0.11",
+    "mysql": "^2.15.0",
+    "sql": "^0.78.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bullettrang/340.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bullettrang/340/issues"
+  },
+  "homepage": "https://github.com/bullettrang/340#readme"
+}
