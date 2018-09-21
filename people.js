@@ -278,7 +278,6 @@ module.exports = function(){
                 //render refers to handlebar files
                 res.render('people', context);
             }
-
         }
     });
 
@@ -308,7 +307,6 @@ module.exports = function(){
                 //render refers to handlebar files
                 res.render('people', context);
             }
-
         }
     });
 
@@ -360,7 +358,6 @@ module.exports = function(){
                 //render refers to handlebar files
                 res.render('people', context);
             }
-
         }
     });
 
@@ -384,7 +381,6 @@ module.exports = function(){
                 //render refers to handlebar files
                 res.render('people', context);
             }
-
         }
     });
 
@@ -408,7 +404,6 @@ module.exports = function(){
                 //render refers to handlebar files
                 res.render('people', context);
             }
-
         }
     });
 
@@ -457,7 +452,6 @@ module.exports = function(){
                 //render handlebar file
                 res.render('teamRoster', context);
             }
-
         }
     });
 
@@ -491,7 +485,6 @@ module.exports = function(){
         var mysql = req.app.get('mysql');
         getTeamSingle(res, mysql, context, req.params.id, complete);
   
-
         function complete(){
             //every callback that is completed is incremented, once we hit 2 or more, we know all callbacks finished
             callbackCount++;
@@ -587,7 +580,6 @@ module.exports = function(){
                 res.end();
             }else{
                 //when we redirect after adding send us back to /people url
-
                 res.redirect('/people');
             }
         });
@@ -608,7 +600,6 @@ module.exports = function(){
                 res.end();
             }else{
                 //when we redirect after adding send us back to /people url
-
                 res.redirect('/people');
             }
         });
@@ -628,7 +619,6 @@ module.exports = function(){
                 res.end();
             }else{
                 //when we redirect after adding send us back to /people url
-
                 res.redirect('/people');
             }
         });
@@ -647,7 +637,6 @@ module.exports = function(){
                 res.end();
             }else{
                 //when we redirect after adding send us back to /people url
-
                 res.redirect('/people');
             }
         });
@@ -666,7 +655,6 @@ module.exports = function(){
                 res.end();
             }else{
                 //when we redirect after adding send us back to /people url
-
                 res.redirect('/people');
             }
         });
